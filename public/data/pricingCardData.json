@@ -1,0 +1,44 @@
+[
+    {
+        "plan": "Basic",
+        "price": "0",
+        "offers": [
+            {
+                "title": "5 Free Interviews/Monthly"
+            },
+            {
+                "title": "Access to Profile"
+            }
+        ]
+    },
+    {
+        "plan": "Standard",
+        "price": "1000",
+        "offers": [
+            {
+                "title": "50 Interviews Monthly"
+            },
+            {
+                "title": "Personalised Feedback"
+            },
+            {
+                "title": "Custom Dashboard"
+            }
+        ]
+    },
+    {
+        "plan": "Pro",
+        "price": "2000",
+        "offers": [
+            {
+                "title": "Unlimited Interviews"
+            },
+            {
+                "title": "Higher Priority Customer Service"
+            },
+            {
+                "title": "Personalised AI Interviewer"
+            }
+        ]
+    }
+]
