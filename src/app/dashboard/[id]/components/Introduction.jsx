@@ -41,7 +41,7 @@ const Introduction = ({ userData }) => {
       <div>
         <div className="space-y-2 mb-5">
           <h1 className="text-2xl lg:text-4xl">Hello, {userData?.name.split(' ')[0] || ""}</h1>
-          <p className="!mb-5 text-sm lg:text-base">Track team progress here. You almost reach a goal!</p>
+          <p className="!mb-5 text-sm lg:text-base">Experience mapped. Progress measured. Goals within reach</p>
           {/* <div className="bg-white/10 backdrop-blur-md px-7 py-6 rounded-xl max-w-[530px]">
             <div
               className="flex justify-between items-center cursor-pointer"
