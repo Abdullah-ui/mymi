@@ -98,10 +98,11 @@ const SignupForm = () => {
         profilePicture: "https://cdn.pfps.gg/pfps/2301-default-2.png",
         strengths: "",
         timeTakenInterviewing: 0,
+        experienceLevel: "beginner",
         username: username,
         weaknesses: "",
-		about: "",
-		bio: "",
+		    about: "",
+		    bio: "",
         typesOfQuestionsSolved: {
           easy: 0,
           medium: 0,

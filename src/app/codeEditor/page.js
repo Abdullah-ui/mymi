@@ -108,7 +108,7 @@ const page = () => {
 
       // Set state variables
       setQuestion(randomQuestion.content || "No content found");
-      setAnswer(randomQuestion.answer || "No answer found");
+      // setAnswer(randomQuestion.answer || "No answer found");
       setSolution(randomQuestion.answer.codingLanguage || "No answer found");
       setDifficulty(randomQuestion.difficulty || "Unknown");
       setQuestionID(randomQuestion.id || "Unknown ID");

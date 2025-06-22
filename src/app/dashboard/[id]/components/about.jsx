@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Edit3, Save, X, Check } from 'lucide-react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { firestore } from '../../../../../firebase';
 
 export default function EditableAboutSection({ about }) {
     const [showAbout, setShowAbout] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
-    const [aboutText, setAboutText] = useState(about || "I'm a passionate developer who loves creating beautiful and functional web applications. I enjoy working with modern technologies like React, Node.js, and TypeScript. When I'm not coding, you can find me exploring new technologies, reading tech blogs, or contributing to open source projects.");
+    const [aboutText, setAboutText] = useState(null);
     const [tempText, setTempText] = useState("");
     const [isSaving, setIsSaving] = useState(false);
 
@@ -18,6 +20,28 @@ export default function EditableAboutSection({ about }) {
         setIsEditing(false);
     };
 
+    useEffect(() => {
+        setAboutText(about)
+    }, [about])
+
+    const saveAboutToDatabase = async (text) => {
+        const id = localStorage.getItem("sessionId");
+
+        try{
+            const docRef = doc(firestore, "users", id);
+    
+            const data = {
+                about: text,
+            }
+    
+            await updateDoc(docRef, data)
+            console.log("About section saved successfully!");
+        } catch (error) {
+            console.log("Error saving about section:", error);
+        }
+        
+    }
+
     const handleSave = async () => {
         setIsSaving(true);
 
@@ -28,16 +52,7 @@ export default function EditableAboutSection({ about }) {
         setIsEditing(false);
         setIsSaving(false);
 
-        // Here you would make your actual API call
-        // try {
-        //   await fetch('/api/user/about', {
-        //     method: 'PUT',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ about: tempText })
-        //   });
-        // } catch (error) {
-        //   console.error('Failed to save:', error);
-        // }
+        await saveAboutToDatabase(tempText);
     };
 
     return (

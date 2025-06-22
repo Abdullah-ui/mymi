@@ -10,31 +10,31 @@ import { firestore } from "../../../../../firebase";
 import { redirect } from "next/navigation";
 import EditableAboutSection from "./about"
 
-const Introduction = () => {
+const Introduction = ({ userData }) => {
   const [showAbout, setShowAbout] = useState(false);
   const router = useRouter();
-  const [userData, setUserData] = useState(null);
+  // const [userData, setUserData] = useState(null);
 
-  const getDataFromDatabase = async () => {
-    const id = localStorage.getItem("sessionId");
+  // const getDataFromDatabase = async () => {
+  //   const id = localStorage.getItem("sessionId");
 
-    const docRef = doc(firestore, "users", id);
-    const docSnap = await getDoc(docRef);
+  //   const docRef = doc(firestore, "users", id);
+  //   const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      setUserData(data)
-    }
-  }
+  //   if (docSnap.exists()) {
+  //     const data = docSnap.data();
+  //     setUserData(data)
+  //   }
+  // }
 
-  useEffect(() => {
-    const id = localStorage.getItem("sessionId");
-    getDataFromDatabase();
+  // useEffect(() => {
+  //   const id = localStorage.getItem("sessionId");
+  //   getDataFromDatabase();
 
-    if (!id) {
-      router.push("/login");
-    }
-  }, [])
+  //   if (!id) {
+  //     router.push("/login");
+  //   }
+  // }, [])
 
   return (
     <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-10 lg:gap-0 lg:justify-between mt-[40px] lg:mt-[95px]">

@@ -60,6 +60,7 @@ const Introduction = () => {
 					weaknesses: "",
 					about: "",
 					bio: "",
+					experienceLevel: "beginner",
 					typesOfQuestionsSolved: {
 					  easy: 0,
 					  medium: 0,
@@ -110,6 +111,7 @@ const Introduction = () => {
 						strengths: "",
 						timeTakenInterviewing: 0,
 						username: username,
+						experienceLevel: "beginner",
 						weaknesses: "",
 						about: "",
 						bio: "",
