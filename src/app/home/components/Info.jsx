@@ -1,11 +1,7 @@
 import Card from "./Card.jsx";
+import homeCardData from "./homeCardData.json";
 
 const Info = async () => {
-  const res = await fetch(
-    `${process.env.BASE_URL}/data/homeCardData.json`
-  );
-  const homeCardData = await res.json();
-
   return (
     <div>
       <h3 className="text-6xl mb-[23px] max-md:text-[32px] max-md:mb-[10px]">
@@ -18,9 +14,7 @@ const Info = async () => {
       </p>
       <div className="mt-[65px] flex space-x-[22px] max-xl:flex-wrap max-xl:space-x-0 max-xl:space-y-[22px]">
         {homeCardData.map((card, key) => {
-          return (
-            <Card key={key} heading={card.heading} text={card.text} />
-          );
+          return <Card key={key} heading={card.heading} text={card.text} />;
         })}
       </div>
     </div>

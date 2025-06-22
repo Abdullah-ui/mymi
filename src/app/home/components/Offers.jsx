@@ -1,11 +1,7 @@
 import OfferCard from "./OfferCard";
+import homeOfferData from "./homeOfferData.json";
 
 const Offers = async () => {
-  const homeOfferRes = await fetch(
-    `${process.env.BASE_URL}/data/homeOfferData.json`
-  );
-  const homeOfferData = await homeOfferRes.json();
-
   return (
     <div className="mt-[115px]">
       <div className="mb-[60px]">
@@ -14,13 +10,7 @@ const Offers = async () => {
       </div>
       <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-sm:grid-cols-1">
         {homeOfferData.map((card, key) => {
-          return (
-            <OfferCard
-              key={key}
-              image={card.image}
-              title={card.title}
-            />
-          );
+          return <OfferCard key={key} image={card.image} title={card.title} />;
         })}
       </div>
     </div>

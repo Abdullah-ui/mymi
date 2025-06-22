@@ -1,12 +1,8 @@
-
 import Introduction from "./components/Introduction";
 import Card from "./components/Card";
+import pricingCardData from "./pricingCardData.json";
 
 const page = async () => {
-  const pricingCardRes = await fetch(
-    `${process.env.BASE_URL}/data/pricingCardData.json`
-  );
-  const pricingCardData = await pricingCardRes.json();
   return (
     <section>
       <Introduction />

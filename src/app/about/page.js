@@ -2,17 +2,9 @@ import Introduction from "./components/Introduction";
 import Card from "./components/Card";
 import Stats from "./components/Stats";
 import Image from "next/image";
-
+import aboutCardData from "./aboutCardData.json";
+import aboutStatsData from "./aboutStatsData.json";
 const page = async () => {
-  const aboutCardRes = await fetch(
-    `${process.env.BASE_URL}/data/aboutCardData.json`
-  );
-  const aboutCardData = await aboutCardRes.json();
-  const aboutStatsRes = await fetch(
-    `${process.env.BASE_URL}/data/aboutStatsData.json`
-  );
-  const aboutStatsData = await aboutStatsRes.json();
-
   return (
     <section>
       <Introduction />
