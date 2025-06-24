@@ -89,21 +89,82 @@ const page = () => {
     }
   };
 
-  const getDataFromDatabase = async () => {
+  const getDataFromDatabase = async (userId) => {
     try {
-      const querySnapshot = await getDocs(collection(firestore, "problems"));
-      const allProblems = [];
+      // const docRef = doc(firestore, "users", userId); // "users" is the collection name
+      // const docSnap = await getDoc(docRef);
+      // const userData = docSnap.data()
 
-      querySnapshot.forEach((doc) => {
-        allProblems.push({ id: doc.id, ...doc.data() });
-      });
+      // const problemsRef = collection(firestore, "problems");
+      
+      // let userExperienceLevel = null
 
-      if (allProblems.length === 0) {
-        console.warn("No problems found in the database.");
-        return;
+      // if (userData.experienceLevel == "beginner"){
+      //   userExperienceLevel = "easy"
+      // } else if (userData.experienceLevel == "intermediate") {
+      //   userExperienceLevel = "medium"
+      // }
+      // else if (userData.experienceLevel == "advanced") {
+      //   userExperienceLevel = "hard"
+      // } 
+      
+      // // Create a query for the specific experienceLevel
+      // const q = query(problemsRef, where("difficulty", "==", userExperienceLevel));
+
+      // const querySnapshot = await getDocs(q);
+      // const allProblems = [];
+
+      // querySnapshot.forEach((doc) => {
+      //   allProblems.push({ id: doc.id, ...doc.data() });
+      // });
+
+      // if (allProblems.length === 0) {
+      //   console.warn("No problems found in the database.");
+      //   return;
+      // }
+
+      // const randomQuestion = allProblems[Math.floor(Math.random() * allProblems.length)];
+
+      let randomQuestion = null;
+
+      let userLevel = null; //beginner, intermediate, advanced
+
+      try {
+        const docRef = doc(firestore, "users", localStorage.getItem("sessionId")); // "users" is the collection name
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          userLevel = docSnap.data().experienceLevel;
+          console.log("User experience level:", userLevel);
+        }
+      } catch (error) {
+        console.error("Error fetching user experience level:", error);
       }
 
-      const randomQuestion = allProblems[Math.floor(Math.random() * allProblems.length)];
+      while (true) {
+        try{
+          let randomId = Math.floor(Math.random() * 2609) + 1;
+  
+          const docRef = doc(firestore, "problems", randomId.toString());
+          const docSnap = await getDoc(docRef);
+  
+          if (docSnap.exists()) {
+            randomQuestion = docSnap.data();
+            
+            if (userLevel.toLowerCase() === "beginner" && randomQuestion.difficulty.toLowerCase() === "easy") {
+              break;
+            } else if (userLevel.toLowerCase() === "intermediate" && randomQuestion.difficulty.toLowerCase() === "medium") {
+              break;
+            } else if (userLevel.toLowerCase() === "advanced" && randomQuestion.difficulty.toLowerCase() === "hard") {
+              break;
+            }
+
+          }
+        } catch (error) {
+          console.error("Error fetching random question:", error);
+          continue;
+        }
+      }
       console.log("✅ Loaded random question:", randomQuestion);
 
       // Set state variables
@@ -219,7 +280,7 @@ const page = () => {
     updateUserExperienceLevel(localStorage.getItem("sessionId"));
 
     // fetch the data from database
-    getDataFromDatabase();
+    getDataFromDatabase(localStorage.getItem("sessionId"));
   }, []);
 
   
