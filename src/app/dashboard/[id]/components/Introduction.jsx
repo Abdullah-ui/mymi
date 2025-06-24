@@ -1,41 +1,12 @@
-"use client";
 import Image from "next/image";
 import { FiThumbsUp } from "react-icons/fi";
 import { LuAlarmClock } from "react-icons/lu";
 import { IoStatsChartOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { doc, getDoc } from "firebase/firestore";
-import { firestore } from "../../../../../firebase";
 import { redirect } from "next/navigation";
 import EditableAboutSection from "./about"
+import ExperienceLevel from "./chip"
 
 const Introduction = ({ userData }) => {
-  const [showAbout, setShowAbout] = useState(false);
-  const router = useRouter();
-  // const [userData, setUserData] = useState(null);
-
-  // const getDataFromDatabase = async () => {
-  //   const id = localStorage.getItem("sessionId");
-
-  //   const docRef = doc(firestore, "users", id);
-  //   const docSnap = await getDoc(docRef);
-
-  //   if (docSnap.exists()) {
-  //     const data = docSnap.data();
-  //     setUserData(data)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   const id = localStorage.getItem("sessionId");
-  //   getDataFromDatabase();
-
-  //   if (!id) {
-  //     router.push("/login");
-  //   }
-  // }, [])
-
   return (
     <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-10 lg:gap-0 lg:justify-between mt-[40px] lg:mt-[95px]">
       <div>
@@ -79,7 +50,8 @@ const Introduction = ({ userData }) => {
         <div className="flex flex-col items-center">
           <p className="text-2xl max-lg:text-lg text-center font-semibold">{userData?.name}</p>
           <p className="text-sm text-neutral-300">@{userData?.username}</p>
-          <button onClick={() => { redirect("/codeEditor") }} className="bg-[#337356] mt-5 py-3 px-12 rounded-full max-md:text-[18px] max-md:py-1.5 max-md:px-4 flex-1">
+          <ExperienceLevel level={userData?.experienceLevel || "beginner"} />
+          <button onClick={() => { redirect("/codeEditor") }} className="bg-[#337356] py-3 px-12 rounded-full max-md:text-[18px] max-md:py-1.5 max-md:px-4 flex-1">
             Start New Interview
           </button>
         </div>
