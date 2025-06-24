@@ -3,9 +3,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { auth, firestore } from "../../../firebase"
-import ProfileDropdown from "./ProfileDropdown"
+import { auth, firestore } from "../../../firebase";
+import ProfileDropdown from "./ProfileDropdown";
 import { doc, getDoc } from "firebase/firestore";
+import Image from "next/image";
 
 export default function Navbar() {
   const router = useRouter();
@@ -14,28 +15,27 @@ export default function Navbar() {
   const [userData, setUserData] = useState(null);
 
   const getDataFromDatabase = async (id) => {
-    if (!id) return
+    if (!id) return;
     const docRef = doc(firestore, "users", id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      return data
+      return data;
     }
-  }
-
+  };
 
   useEffect(() => {
-    let wholeData = {}
+    let wholeData = {};
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      wholeData = { ...firebaseUser }
+      wholeData = { ...firebaseUser };
     });
     const fetchData = async () => {
       const id = localStorage.getItem("sessionId");
       const someData = await getDataFromDatabase(id);
-      setUserData(({ ...wholeData, ...someData }));
-    }
-    fetchData()
+      setUserData({ ...wholeData, ...someData });
+    };
+    fetchData();
     return () => unsubscribe(); // cleanup
   }, []);
 
@@ -59,17 +59,25 @@ export default function Navbar() {
     <nav className="flex justify-between items-center mt-8">
       <div className="flex items-center space-x-4 z-10">
         <div
-          className={`hamburger-menu flex flex-col lg:hidden cursor-pointer ${menuOpen ? "active" : ""
-            }`}
+          className={`hamburger-menu flex flex-col lg:hidden cursor-pointer ${
+            menuOpen ? "active" : ""
+          }`}
           onClick={toggleMenu}
         >
           <span className="hamburger-line bg-[#EB7830] mb-1"></span>
           <span className="hamburger-line bg-[#EB7830] mb-1"></span>
           <span className="hamburger-line bg-[#EB7830]"></span>
         </div>
-        <h1 className="text-5xl max-md:text-4xl font-semibold">
-          <Link href="/">mymi</Link>
-        </h1>
+        <div className="w-28 h-28">
+          <Link href="/">
+            <img
+              src="/images/logo.png"
+              width="100%"
+              height="100%"
+              // style={{ display: "block" }}
+            />
+          </Link>
+        </div>
       </div>
       <div className="space-x-7 max-lg:hidden max-lg:space-x-4">
         <Link href="/">Home</Link>
@@ -113,9 +121,9 @@ export default function Navbar() {
           </Link>
         </div>
       )}
-      {userData && loggedIn && <ProfileDropdown userData={userData} handleLogout={handleLogout} />}
+      {userData && loggedIn && (
+        <ProfileDropdown userData={userData} handleLogout={handleLogout} />
+      )}
     </nav>
   );
 }
-
-

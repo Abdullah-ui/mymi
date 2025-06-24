@@ -17,6 +17,9 @@ export const metadata = {
   title: "MYMI",
   description:
     "Meet Your Mock Interviewer or MYMI is an application that leverages the power of AI to simulate technical interviews providing detailed feedback on it as well.",
+  icons: {
+    icon: "/images/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }) {
