@@ -42,38 +42,24 @@ const Introduction = ({ userData }) => {
         <div className="space-y-2 mb-5">
           <h1 className="text-2xl lg:text-4xl">Hello, {userData?.name.split(' ')[0] || ""}</h1>
           <p className="!mb-5 text-sm lg:text-base">Experience mapped. Progress measured. Goals within reach</p>
-          {/* <div className="bg-white/10 backdrop-blur-md px-7 py-6 rounded-xl max-w-[530px]">
-            <div
-              className="flex justify-between items-center cursor-pointer"
-              onClick={() => setShowAbout(!showAbout)}
-            >
-              <h3 className="text-lg font-semibold">About</h3>
-              <span className="text-sm">{showAbout ? "Hide" : "Show"}</span>
-            </div>
-            {showAbout && (
-              <p className="mt-4">
-                {userData?.about || ""}
-              </p>
-            )}
-          </div> */}
           <EditableAboutSection about={userData?.about || ""} />
         </div>
         <div className="flex flex-wrap justify-center gap-3 lg:gap-5">
-          <div className="bg-white/10 backdrop-blur-md px-5 lg:px-7 py-4 rounded-xl flex items-center gap-4">
+          <div className="bg-white/10 backdrop-blur-md px-7 py-4 rounded-xl flex items-center gap-4 flex-1">
             <FiThumbsUp className="w-[30px] h-[30px]" />
             <div>
               <p className="text-sm lg:text-base">Finished</p>
               <p className="text-xs text-neutral-300">{userData?.finishedInterviewCount}</p>
             </div>
           </div>
-          <div className="bg-white/10 backdrop-blur-md px-7 py-6 rounded-xl flex items-center gap-4">
+          <div className="bg-white/10 backdrop-blur-md px-7 py-6 rounded-xl flex items-center gap-4 flex-1">
             <LuAlarmClock className="w-[30px] h-[30px]" />
             <div>
               <p className="text-sm mlgd:text-base">Tracked</p>
               <p className="text-xs text-neutral-300">{userData?.timeTakenInterviewing}</p>
             </div>
           </div>
-          <div className="bg-white/10 backdrop-blur-md px-7 py-6 rounded-xl flex items-center gap-4">
+          <div className="bg-white/10 backdrop-blur-md px-7 py-6 rounded-xl flex items-center gap-4 flex-1">
             <IoStatsChartOutline className="w-[30px] h-[30px]" />
             <div>
               <p className="text-sm lg:text-base">Efficiency</p>
@@ -91,9 +77,9 @@ const Introduction = ({ userData }) => {
           height={140}
         />
         <div className="flex flex-col items-center">
-          <p className="text-2xl max-lg:text-lg font-semibold">{userData?.name}</p>
+          <p className="text-2xl max-lg:text-lg text-center font-semibold">{userData?.name}</p>
           <p className="text-sm text-neutral-300">@{userData?.username}</p>
-          <button onClick={() => { redirect("/codeEditor") }} className="bg-[#337356] mt-5 py-3 px-12 rounded-full max-md:text-[18px] max-md:py-1.5 max-md:px-4">
+          <button onClick={() => { redirect("/codeEditor") }} className="bg-[#337356] mt-5 py-3 px-12 rounded-full max-md:text-[18px] max-md:py-1.5 max-md:px-4 flex-1">
             Start New Interview
           </button>
         </div>

@@ -1,0 +1,30 @@
+[
+    {
+        "question": "How does the mock interview work?",
+        "answer": "The AI conducts an interview, asks questions, and provides feedback on your performance."
+    },
+    {
+        "question": "Can I choose the coding language for my interview?",
+        "answer": "Yes, you can choose from languages like Python, Java, C++, and more."
+    },
+    {
+        "question": "How do I get feedback after the interview?",
+        "answer": "The AI provides detailed feedback on your performance, highlighting strengths and areas for improvement."
+    },
+    {
+        "question": "Is the interview experience customized to my skill level?",
+        "answer": "Yes, the platform adjusts the difficulty based on your experience."
+    },
+    {
+        "question": "Is there a time limit for the interviews?",
+        "answer": "Yes, each interview has a set time limit to simulate real interview conditions."
+    },
+    {
+        "question": "Can I retake an interview?",
+        "answer": "Yes, you can retake interviews to track progress and practice."
+    },
+    {
+        "question": "Can I practice soft skills like communication?",
+        "answer": "Yes, the AI evaluates your communication, professionalism, and behavior during the interview."
+    }
+]

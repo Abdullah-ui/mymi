@@ -1,20 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
+import faqDropDownData from "./faqDropDownData.json"
 
 const Dropdowns = () => {
-	const [faqDropDownData, setFaqDropDownData] = useState([]);
 	const [openIndex, setOpenIndex] = useState(null);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const faqDropDownRes = await fetch(`/data/faqDropDownData.json`);
-			const data = await faqDropDownRes.json();
-			setFaqDropDownData(data);
-		};
-		fetchData();
-	}, []); 
 
 	const toggleDropdown = (index) => {
 		setOpenIndex(openIndex === index ? null : index);
@@ -34,9 +25,8 @@ const Dropdowns = () => {
 							/>
 						</button>
 						<div
-							className={`overflow-hidden transition-max-height duration-300 ease-in-out ${
-								openIndex === index ? "max-h-screen" : "max-h-0"
-							}`}>
+							className={`overflow-hidden transition-max-height duration-300 ease-in-out ${openIndex === index ? "max-h-screen" : "max-h-0"
+								}`}>
 							<p className="px-4 py-2 text-neutral-300">{faq.answer}</p>
 						</div>
 					</div>
