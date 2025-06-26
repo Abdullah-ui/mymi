@@ -56,7 +56,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex justify-between items-center mt-8">
+    <nav className="flex justify-between items-center">
       <div className="flex items-center space-x-4 z-10">
         <div
           className={`hamburger-menu flex flex-col lg:hidden cursor-pointer ${

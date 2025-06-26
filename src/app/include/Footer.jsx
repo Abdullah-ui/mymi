@@ -17,12 +17,11 @@ const Footer = () => {
     <footer className="flex max-xl:flex-col items-start xl:items-center justify-between py-16 xl:py-32 max-xl:pb-12 mt-0">
       <div className="space-y-10 flex max-[516px]:flex-col lg:block mb-16 xl:mb-0 max-[516px]:items-start max-xl:items-center max-lg:justify-between max-lg:w-full">
         <div>
-          <div className="w-28 h-28">
+          <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-48 lg:h-48 xl:w-56 xl:h-56">
             <img
               src="/images/logo.png"
-              width="100%"
-              height="100%"
-              // style={{ display: "block" }}
+              className="w-full h-full object-contain"
+              alt="Logo"
             />
           </div>
           {!userData && (
