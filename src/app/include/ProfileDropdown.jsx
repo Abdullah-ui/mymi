@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
 export default function ProfileDropdown({ userData, handleLogout }) {
+  console.log("userData", userData)
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -113,7 +114,7 @@ export default function ProfileDropdown({ userData, handleLogout }) {
             <div className="flex justify-between items-center text-sm">
               <span className="text-gray-400">Name:</span>
               <span className="text-white font-mono text-xs bg-gray-700 px-2 py-1 rounded border border-gray-600">
-                {userData?.displayName}
+                {userData?.displayName || userData?.name}
               </span>
             </div>
             <div className="flex justify-between items-center text-sm">

@@ -82,7 +82,7 @@ export default function Navbar() {
       <div className="space-x-7 max-lg:hidden max-lg:space-x-4">
         <Link href="/">Home</Link>
         <Link href="/about">About</Link>
-        <Link href="/pricing">Pricing</Link>
+        {/* <Link href="/pricing">Pricing</Link> */}
         <Link href="/contact">Contacts</Link>
         <Link href="/faqs">FAQ's</Link>
       </div>
@@ -94,7 +94,7 @@ export default function Navbar() {
           Home
         </Link>
         <Link href="/about">About</Link>
-        <Link href="/pricing">Pricing</Link>
+        {/* <Link href="/pricing">Pricing</Link> */}
         <Link href="/contact">Contacts</Link>
         <Link href="/faqs">FAQ's</Link>
       </div>

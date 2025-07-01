@@ -57,12 +57,12 @@ const Footer = () => {
             >
               Mock Interview
             </Link>
-            <Link
+            {/* <Link
               href=""
               className="hover:underline hover:text-blue-600 transition-all duration-200"
             >
               Practice Problems
-            </Link>
+            </Link> */}
             <Link
               href=""
               className="hover:underline hover:text-blue-600 transition-all duration-200"
@@ -82,7 +82,7 @@ const Footer = () => {
             >
               Interview Tips
             </Link>
-            <Link
+            {/* <Link
               href=""
               className="hover:underline hover:text-blue-600 transition-all duration-200"
             >
@@ -99,7 +99,7 @@ const Footer = () => {
               className="hover:underline hover:text-blue-600 transition-all duration-200"
             >
               Sample Questions
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className="space-y-3 xl:space-y-8 text-nowrap max-xl:mt-10">
