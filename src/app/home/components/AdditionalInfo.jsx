@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-
 const AdditionalInfo = () => {
   return (
     <div className="lg:mt-[115px] mt-[42px] flex max-lg:flex-col space-x-10 max-lg:space-x-0 max-lg:space-y-10">
@@ -26,29 +25,6 @@ const AdditionalInfo = () => {
             career goals has never been easier. Sign up today and take the first
             step toward acing your interviews!
           </p>
-        </div>
-      </div>
-      <div className="bg-black bg-opacity-50 rounded-3xl p-20 flex flex-col items-center justify center">
-        <h3 className="text-3xl lg:text-2xl font-semibold mb-14 text-nowrap">Data from the Industry</h3>
-        <div className="space-y-8 flex flex-col lg:w-full w-[200px]">
-          <Image
-            src="/images/noa_tech_home.png"
-            alt="Noa Technology"
-            width={520}
-            height={520}
-          />
-          <Image
-            src="/images/product_box_home.png"
-            alt="Product Box"
-            width={520}
-            height={520}
-          />
-          <Image
-            src="/images/google_home.png"
-            alt="Google"
-            width={520}
-            height={520}
-          />
         </div>
       </div>
     </div>

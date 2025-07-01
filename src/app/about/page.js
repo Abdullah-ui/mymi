@@ -24,9 +24,16 @@ const page = async () => {
             width={1440}
             height={1440}
           />
-          <div className="bg-[#000000] bg-opacity-50 grid grid-cols-2 gap-6 rounded-3xl p-7">
+          <div className="bg-[#000000] bg-opacity-50 grid grid-cols-2 gap-3 rounded-3xl p-7">
             {aboutStatsData.map((stat, key) => {
-              return <Stats key={key} number={stat.number} text={stat.text} />;
+              return (
+                <Stats
+                  key={key}
+                  number={stat.number}
+                  text={stat.text}
+                  isLast={key === aboutStatsData.length - 1}
+                />
+              );
             })}
           </div>
         </div>

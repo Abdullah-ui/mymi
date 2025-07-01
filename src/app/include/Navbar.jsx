@@ -115,7 +115,7 @@ export default function Navbar() {
       )} */}
       {!loggedIn && (
         <div className="space-x-6 max-sm:space-x-4 font-semibold">
-          <Link href="/login">login</Link>
+          <Link href="/login">Login</Link>
           <Link href="/signup" className="bg-[#EB7830] py-2 px-4 rounded-full">
             Sign Up
           </Link>
