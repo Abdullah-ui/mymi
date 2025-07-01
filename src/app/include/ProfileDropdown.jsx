@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
 export default function ProfileDropdown({ userData, handleLogout }) {
-  console.log("userData", userData)
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
