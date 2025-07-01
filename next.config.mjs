@@ -1,8 +1,5 @@
-/** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === "production";
+// next.config.mjs
 const nextConfig = {
-  assetPrefix: isProd ? "/mymi/" : "",
-  basePath: isProd ? "/mymi" : "",
   async redirects() {
     return [
       {
@@ -19,7 +16,7 @@ const nextConfig = {
         hostname: "*",
       },
     ],
-    unoptimized: true, // GitHub Pages does not support Next.js image optimization
+    unoptimized: true,
   },
 };
 
