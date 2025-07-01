@@ -3,17 +3,15 @@ import Banner from "./components/Banner.jsx";
 import DashboardInfo from "./components/DashboardInfo.jsx";
 import Info from "./components/Info.jsx";
 import Introduction from "./components/Introduction.jsx";
-import Offers from "./components/Offers.jsx";
 
 export default async function Home() {
-  return  (
+  return (
     <section>
       <Introduction />
       <Info />
-      <DashboardInfo/>
-      <AdditionalInfo/>
-      <Banner/>
-      <Offers/>
+      <DashboardInfo />
+      <AdditionalInfo />
+      <Banner />
     </section>
   );
 }
