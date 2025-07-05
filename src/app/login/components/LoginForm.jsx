@@ -76,7 +76,6 @@ const LoginForm = () => {
 
       router.push('/dashboard/' + user.uid);
     } catch (error){
-      console.log(error);
       setError(error);
     }
   }
@@ -95,21 +94,14 @@ const LoginForm = () => {
 
       router.push('/dashboard/' + user.uid);
     } catch (error){
-      console.log(error);
       setError(error);
     }
   }
 
   const checkIfAlreadyLoggedIn = () => {
-    try{
-      // const response = localStorage.getItem("sessionId");
-      const id = localStorage.getItem("sessionId");
-
-      if (id){
-        router.push('/dashboard/' + id);
-      }
-    } catch (error){
-      console.log(error);
+    const id = localStorage.getItem("sessionId");
+    if (id){
+      router.push('/dashboard/' + id);
     }
   }
 

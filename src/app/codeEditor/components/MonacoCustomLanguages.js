@@ -4,7 +4,7 @@ const MonacoEditor = () => {
 	const editorRef = useRef(null);
 	const monacoEl = useRef(null);
 	const [selectedLanguage, setSelectedLanguage] = useState("javascript");
-	const [editorContent, setEditorContent] = useState("// Simple Monaco Editor\nconsole.log('Hello, World!');");
+	const [editorContent, setEditorContent] = useState("// write your code here");
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
 
@@ -19,11 +19,11 @@ const MonacoEditor = () => {
 	// Sample code for different languages
 	const sampleCode = {
 		javascript:
-			"// JavaScript Example\nfunction greet(name) {\n  return `Hello, ${name}!`;\n}\n\nconsole.log(greet('World'));",
+			"// write your code here",
 		typescript:
-			"// TypeScript Example\ninterface User {\n  name: string;\n  age: number;\n}\n\nfunction greet(user: User): string {\n  return `Hello, ${user.name}!`;\n}",
-		python: "# Python Example\ndef greet(name):\n    return f'Hello, {name}!'\n\nprint(greet('World'))",
-		cpp: '// C++ Example\n #include <iostream>\n #include <string>\n\n std::string greet(const std::string& name) {\n     return "Hello, " + name + "!";\n }\n\n int main() {\n     std::cout << greet("World") << std::endl;\n     return 0;\n }',
+			"// write your code here",
+		python: "# write your code here",
+		cpp: '// write your code here',
 	};
 
 	// Initialize Monaco Editor

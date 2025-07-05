@@ -13,7 +13,7 @@ const Performance = ({ userData }) => {
 
   const getSuggestions = async () => {
     try {
-      console.log("Fetching suggestions for user:", await userData);
+      await userData;
       const response = await axios.post(
         "/api/suggestions",
         {
@@ -27,17 +27,10 @@ const Performance = ({ userData }) => {
       );
 
       const result = response.data;
-      console.log(result);
       setSuggestions(result);
     } catch (error) {
       console.log(error);
     }
-
-    // setSuggestions( [
-    //   "Working on Leetcode Problem Set 1110",
-    //   "Working on improving the way you are speaking directly.",
-    //   "Explaining your approach in a more systematic manner."
-    // ]);
   };
 
   useEffect(() => {
