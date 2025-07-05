@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { auth, firestore } from "../../../firebase";
 import ProfileDropdown from "./ProfileDropdown";
 import { doc, getDoc } from "firebase/firestore";
-import Image from "next/image";
+import { signOut } from "firebase/auth";
 
 export default function Navbar() {
   const router = useRouter();
@@ -46,9 +46,15 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.clear();
-    setLoggedIn(false);
-    router.push("/home");
+    signOut(auth).then(() => {
+      localStorage.clear();
+      setLoggedIn(false);
+      router.push("/home");
+    }).catch(() => {
+      localStorage.clear();
+      setLoggedIn(false);
+      router.push("/home");
+    })
   };
 
   const toggleMenu = () => {
@@ -59,9 +65,8 @@ export default function Navbar() {
     <nav className="flex justify-between items-center">
       <div className="flex items-center space-x-4 z-10">
         <div
-          className={`hamburger-menu flex flex-col lg:hidden cursor-pointer ${
-            menuOpen ? "active" : ""
-          }`}
+          className={`hamburger-menu flex flex-col lg:hidden cursor-pointer ${menuOpen ? "active" : ""
+            }`}
           onClick={toggleMenu}
         >
           <span className="hamburger-line bg-[#EB7830] mb-1"></span>
@@ -74,7 +79,7 @@ export default function Navbar() {
               src="/images/logo.png"
               width="100%"
               height="100%"
-              // style={{ display: "block" }}
+            // style={{ display: "block" }}
             />
           </Link>
         </div>
