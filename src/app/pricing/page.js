@@ -1,8 +1,10 @@
 import Introduction from "./components/Introduction";
 import Card from "./components/Card";
 import pricingCardData from "./pricingCardData.json";
+import { notFound } from 'next/navigation'
 
 const page = async () => {
+  notFound()
   return (
     <section>
       <Introduction />
