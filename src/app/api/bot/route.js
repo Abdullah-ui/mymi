@@ -80,10 +80,9 @@ var chat_history = [
     }
 ]
 
-const handleEndInterview = async() => {
-    // this is the function that will be called when the user ends the interview
-
-    const prompt = `The interview session has now ENDED. Evaluate the conversation so far and You have to evaluate as a critical interviewer and return a json response containing scores out of 10 for communication skills, professionalism, adaptability, coding skills, clean code writing and optimized code writing.
+const handleEndInterview = async () => {
+    try {
+        const prompt = `The interview session has now ENDED. Evaluate the conversation so far and You have to evaluate as a critical interviewer and return a json response containing scores out of 10 for communication skills, professionalism, adaptability, coding skills, clean code writing and optimized code writing.
             You have to give weightage of 2 to communication, 2 to undestanding of the problem statement, 1 to professionalism, 1 to adaptability, 3 to coding skills, 1 to clean code writing and 2 to optimization and calculation an overall score out of 100 for the interviewee.
             Make sure to calculate the results as accurate as possible and do not assume any scores on your own the json object you will be returning must striclty depict the performance of the user as it will be used to help the interviewee become better at interviewing.
             If the user has not written any code, mark the coding aspect to 0 and the clean code writing and optimization to 0 as well. You have to evaluate striclty on the performance of the interviewee in the interview session.
@@ -102,61 +101,154 @@ const handleEndInterview = async() => {
             sample response looks like this:
             {
                 "results": {
-                  overall: 87,
-                  communication: 9,
-                  understanding: 5, 
-                  professionalism: 8,
-                  adaptability: 7,
-                  codingSkills: 9,
-                  cleanCodeWriting: 8,
-                  optimization: 9,
+                  "overall": 87,
+                  "communication": 9,
+                  "understanding": 5, 
+                  "professionalism": 8,
+                  "adaptability": 7,
+                  "codingSkills": 9,
+                  "cleanCodeWriting": 8,
+                  "optimization": 9
                 },
                 "strengths": ["Good communication", "Strong coding skills"],
                 "weaknesses": ["Lack of adaptability", "Needs improvement in clean code writing"],
-                "areasOfImprovement": ["Adaptability", "Clean code writing"],
+                "areasOfImprovement": ["Adaptability", "Clean code writing"]
             }
 
             RETURN ONLY ONE JSON RESPONSE CONTAINING SCORES AND DO NOT RANDOMLY ASSUME ANYTHING ON YOUR OWN EXCEPT FOR WHAT THE ACTUAL SCORES ARE BASED ON THE INTERVIEW SESSION. DONT GIVE ANY EXPLANATION FOR THE SCORES. 
             DONOT INCLUDE ANYTHING ELSE IN THE RESPONSE BESIDES THE JSON.
-            `
+            `;
 
-    await addToTheChatHistory("user", prompt);
+        await addToTheChatHistory("user", prompt);
+        const results = await makeRequestToLLM();
 
-    const results = await makeRequestToLLM();
+        // Extract JSON from the response (handles cases where there might be text around the JSON)
+        let jsonResponse;
+        try {
+            // Try to find JSON in the response (handles cases where LLM might add text)
+            const jsonMatch = results.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) {
+                throw new Error("No JSON found in the response");
+            }
+            jsonResponse = JSON.parse(jsonMatch[0]);
+        } catch (parseError) {
+            console.error("Error parsing JSON response:", parseError);
+            throw new Error("Invalid JSON response from LLM");
+        }
 
-    await addToTheChatHistory("system", results);
+        // Validate the response structure
+        const requiredFields = [
+            'results.overall', 
+            'results.communication', 
+            'results.understanding',
+            'results.professionalism',
+            'results.adaptability',
+            'results.codingSkills',
+            'results.cleanCodeWriting',
+            'results.optimization',
+            'strengths',
+            'weaknesses',
+            'areasOfImprovement'
+        ];
 
-    return results;
-}
+        // Check if all required fields are present
+        for (const field of requiredFields) {
+            const parts = field.split('.');
+            let obj = jsonResponse;
+            
+            for (const part of parts) {
+                if (!obj.hasOwnProperty(part)) {
+                    throw new Error(`Missing required field: ${field}`);
+                }
+                obj = obj[part];
+            }
+        }
 
-const makeRequestToLLM = async() => {
-    // this is the function that will be called when the user sends a message to the model
+        await addToTheChatHistory("system", JSON.stringify(jsonResponse));
+        return jsonResponse;
 
+    } catch (error) {
+        console.error("Error in handleEndInterview:", error);
+        
+        // Return a default error response in the expected JSON format
+        return {
+            results: {
+                overall: 0,
+                communication: 0,
+                understanding: 0,
+                professionalism: 0,
+                adaptability: 0,
+                codingSkills: 0,
+                cleanCodeWriting: 0,
+                optimization: 0
+            },
+            strengths: [],
+            weaknesses: ["Error in evaluation"],
+            areasOfImprovement: ["Technical evaluation error"]
+        };
+    }
+};
+
+const makeRequestToLLM = async (retryCount = 0) => {
+    const MAX_RETRIES = 3;
+    const RATE_LIMIT_DELAY = 5000; // 5 seconds delay for rate limits
+    
     try {
         const response = await client.chat.completions.create({
-            //
-            // Required parameters
-            //
             messages: messages,
-        
-            // The language model which will generate the completion.
-            model: MODEL,    
-            temperature: 0.5,       // Controls randomness: lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.
-            max_tokens: 1024,      // The maximum number of tokens to generate. Requests can use up to 2048 tokens shared between prompt and completion.
-            top_p: 1,             // Controls diversity via nucleus sampling: 0.5 means half of all likelihood-weighted options are considered.
-            stop: null,           // A stop sequence is a predefined or user-specified text string that signals an AI to stop generating content, ensuring its responses remain focused and concise. Examples include punctuation marks and markers like "[end]".
-            stream: false,       // If set, partial message deltas will be sent.
-          });
-          
-       const results = response.choices[0].message.content;
-    
-       return results;
-    } catch (error) {
-        if (error.status === 429) {
-            console.error("Rate limit exceeded. Please try again later.");
+            model: MODEL,
+            temperature: 0.5,
+            max_tokens: 1024,
+            top_p: 1,
+            stop: null,
+            stream: false,
+        });
+
+        if (!response?.choices?.[0]?.message?.content) {
+            throw new Error("Invalid response structure from LLM");
         }
-        return "Some error occured. Please try again later.";
+
+        return response.choices[0].message.content;
+
+    } catch (error) {
+        console.error(`LLM request failed (attempt ${retryCount + 1}):`, error);
+
+        // Handle rate limits specifically
+        if (error.status === 429) {
+            console.warn(`Rate limit exceeded. Waiting ${RATE_LIMIT_DELAY}ms before retry...`);
+            
+            // Exponential backoff for subsequent retries
+            const delay = RATE_LIMIT_DELAY * Math.pow(2, retryCount);
+            await new Promise(resolve => setTimeout(resolve, delay));
+            
+            if (retryCount < MAX_RETRIES) {
+                return makeRequestToLLM(retryCount + 1);
+            }
+            // throw new Error("Rate limit exceeded after multiple retries. Please try again later.");
+            return "An error occurred while processing your request. Please try again later.";
+        }
+
+        // Handle other retryable errors (like network issues)
+        if (retryCount < MAX_RETRIES && isRetryableError(error)) {
+            console.log(`Retrying... (${retryCount + 1}/${MAX_RETRIES})`);
+            return makeRequestToLLM(retryCount + 1);
+        }
+
+        // Non-retryable error or max retries reached
+        // throw new Error(`LLM request failed: ${error.message}`);
+        return "An error occurred while processing your request. Please try again later.";
     }
+};
+
+// Helper function to determine if an error is retryable
+function isRetryableError(error) {
+    // Network errors, timeouts, and server errors are usually retryable
+    return (
+        !error.status || // No status code (likely network error)
+        error.status >= 500 || // Server errors
+        error.status === 408 || // Timeout
+        error.status === 429 // Rate limit (handled separately)
+    );
 }
 
 const addToTheChatHistory = async(role, prompt, userResponse = null, usersCode = null) => {
@@ -214,7 +306,11 @@ export async function POST(req) {
     if (userResponse === "end the interview"){
         // handling the end of interview and generating scores based on all the conversation held so far
         const r = await handleEndInterview();
-        return new NextResponse(r);
+        return new NextResponse(JSON.stringify(r), {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
     } else {
         // setting the prompt for the user to send to the model
         prompt = "The interviewee replied with: '" + userResponse + "' and provided this code: '" + usersCode + " ' to the question: '" + codingQuestion + "' with the model solution: " + modelSolution + "\n Respond to this as a TECHNICAL INTERVIEWER. Make it as humanly as possible. \n You have " + timeLeft + " minutes left. Give one question at a time. Do not follow up on the sample problem and the code until the user has written some code. Focus on introduction first then move on to the coding aspect even if the model solution is provided. Once the coding part has started do not follow up on the background anymore. Do not read the question out loud and instead ask the user to read the question and explain what the question asks. Keep the response short. ask follow up questions if necessary but dont get too caught up with follow up question. just one or two would suffice. ask only one question at a time"; 

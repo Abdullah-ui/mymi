@@ -18,8 +18,7 @@ if (typeof window !== "undefined") {
 
 const page = () => {
   const [userDifficulty, setUserDifficulty] = useState("beginner")
-  const [questionID, setQuestionID] = useState("1"); // for testing purposes only
-  // const [questionID, setQuestionID] = useState(req.body.questionID)
+  const [questionID, setQuestionID] = useState("1");
   const [question, setQuestion] = useState("");
   const [solution, setSolution] = useState("");
   const [isRecording, setIsRecording] = useState(false);
@@ -42,20 +41,6 @@ const page = () => {
 
   // Reference to store the SpeechRecognition instance
   const recognitionRef = useRef(null);
-
-  // const getDataFromDatabase = async () => {
-  //   const docRef = doc(firestore, "problems", questionID);
-  //   const docSnap = await getDoc(docRef);
-
-  //   if (docSnap.exists()){
-  //     const data = docSnap.data();
-  //     setQuestion(data.content);
-  //     changeLanguageOfTheSolution(data.answer);
-  //     setDifficulty(data.difficulty)
-  //   } else {
-  //     console.log("error fetching the data");
-  //   }
-  // }
 
   const updateUserExperienceLevel = async (userId) => {
     const docRef = doc(firestore, "users", userId); // "users" is the collection name
@@ -91,40 +76,6 @@ const page = () => {
 
   const getDataFromDatabase = async (userId) => {
     try {
-      // const docRef = doc(firestore, "users", userId); // "users" is the collection name
-      // const docSnap = await getDoc(docRef);
-      // const userData = docSnap.data()
-
-      // const problemsRef = collection(firestore, "problems");
-      
-      // let userExperienceLevel = null
-
-      // if (userData.experienceLevel == "beginner"){
-      //   userExperienceLevel = "easy"
-      // } else if (userData.experienceLevel == "intermediate") {
-      //   userExperienceLevel = "medium"
-      // }
-      // else if (userData.experienceLevel == "advanced") {
-      //   userExperienceLevel = "hard"
-      // } 
-      
-      // // Create a query for the specific experienceLevel
-      // const q = query(problemsRef, where("difficulty", "==", userExperienceLevel));
-
-      // const querySnapshot = await getDocs(q);
-      // const allProblems = [];
-
-      // querySnapshot.forEach((doc) => {
-      //   allProblems.push({ id: doc.id, ...doc.data() });
-      // });
-
-      // if (allProblems.length === 0) {
-      //   console.warn("No problems found in the database.");
-      //   return;
-      // }
-
-      // const randomQuestion = allProblems[Math.floor(Math.random() * allProblems.length)];
-
       let randomQuestion = null;
 
       let userLevel = null; //beginner, intermediate, advanced
@@ -169,8 +120,8 @@ const page = () => {
 
       // Set state variables
       setQuestion(randomQuestion.content || "No content found");
-      // setAnswer(randomQuestion.answer || "No answer found");
-      setSolution(randomQuestion.answer.codingLanguage || "No answer found");
+      // setSolution(randomQuestion.answer.codingLanguage || "No answer found");
+      changeLanguageOfTheSolution(randomQuestion)
       setDifficulty(randomQuestion.difficulty || "Unknown");
       setQuestionID(randomQuestion.id || "Unknown ID");
 
@@ -199,8 +150,6 @@ const page = () => {
     recognitionRef.current.onresult = (event) => {
       const { transcript } = event.results[event.results.length - 1][0];
 
-      // Log the recognition results and update the transcript state
-      // console.log(event.results);
       setTranscript(transcript);
 
       if (event.results[event.results.length - 1].isFinal) {
@@ -270,28 +219,18 @@ const page = () => {
   }
 
   useEffect(() => {
+    const id = localStorage.getItem("sessionId");  
 
     // making sure the user is logged in before the interview session
-    if (!localStorage.getItem("sessionId")){
+    if (!id){
       redirect("/login");
     }
 
     // get user details
-    updateUserExperienceLevel(localStorage.getItem("sessionId"));
+    updateUserExperienceLevel(id);
 
     // fetch the data from database
-    getDataFromDatabase(localStorage.getItem("sessionId"));
-  }, []);
-
-  
-  // Cleanup effect when the component unmounts
-  useEffect(() => {
-    return () => {
-      // Stop the speech recognition if it's active
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-    };
+    getDataFromDatabase(id);
   }, []);
 
   useEffect(() => {
@@ -424,25 +363,15 @@ const page = () => {
       )
       .then((r) => r);
 
-    console.log(response.data);
     const result = response.data;
     console.log("result: ", result);
 
-    const jsonMatch = result.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error("No JSON found in the string!");
-
-    var resultJson = JSON.parse(result.replace(/^```|```$/g, '').trim());
-    resultJson = JSON.parse(jsonMatch[0]);
-
-    setResultsData(resultJson);
+    setResultsData(result);
     setInterviewEnded(true);
-    console.log(resultJson);
     setIsRecording(false);
     setIsSpeaking(false)
 
     setTimeLeft(25 - (new Date() - interviewStartTime) / (1000 * 60));
-
-    // route to the dashboard
   };
 
   const { minutes, seconds, startTimer } = useCountdownTimer(
@@ -461,10 +390,12 @@ const page = () => {
     // Stop speech recognition if it's active
     if (recognitionRef.current) {
       recognitionRef.current.stop();
+      console.log("Speech recognition stopped.");
     }
     // Cancel any ongoing speech synthesis
     if (window.speechSynthesis && window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
+      console.log("Speech synthesis cancelled.");
     }
   };
 }, []);

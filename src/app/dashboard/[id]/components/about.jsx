@@ -35,7 +35,6 @@ export default function EditableAboutSection({ about }) {
             }
     
             await updateDoc(docRef, data)
-            console.log("About section saved successfully!");
         } catch (error) {
             console.log("Error saving about section:", error);
         }

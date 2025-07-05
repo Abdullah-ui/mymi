@@ -18,11 +18,13 @@ const Footer = () => {
       <div className="space-y-10 flex max-[516px]:flex-col lg:block mb-16 xl:mb-0 max-[516px]:items-start max-xl:items-center max-lg:justify-between max-lg:w-full">
         <div>
           <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-48 lg:h-48 xl:w-56 xl:h-56">
-            <img
-              src="/images/logo.png"
-              className="w-full h-full object-contain"
-              alt="Logo"
-            />
+            <Link href="/home">
+              <img
+                src="/images/logo.png"
+                className="w-full h-full object-contain"
+                alt="Logo"
+              />
+            </Link>
           </div>
           {!userData && (
             <>
