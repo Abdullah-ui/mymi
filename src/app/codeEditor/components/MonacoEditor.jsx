@@ -27,7 +27,7 @@ const MonacoEditor = ({ setCodeWritten }) => {
     //     />
     //   </div>
     // </div>
-    <MonacoCustomLanguages/>
+    <MonacoCustomLanguages onEditorChange={handleEditorChange}/>
   );
 };
 

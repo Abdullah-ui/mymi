@@ -25,8 +25,9 @@ const ContactForm = () => {
             className="w-full bg-transparent placeholder:text-[#7187A2] border border-[#7187A2] rounded-xl py-2 px-3 focus:outline-none"
           />
           <input
-            type="text"
-            placeholder="Phone Number"
+            type="tel"
+            pattern="/\+?[0-9]{12}|[0-9]{11}/gm"
+            placeholder="92XXXXXXXXXX"
             className="w-full bg-transparent placeholder:text-[#7187A2] border border-[#7187A2] rounded-xl py-2 px-3 focus:outline-none"
           />
           <textarea

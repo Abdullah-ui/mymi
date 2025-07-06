@@ -369,7 +369,8 @@ const page = () => {
     setResultsData(result);
     setInterviewEnded(true);
     setIsRecording(false);
-    setIsSpeaking(false)
+    setIsSpeaking(false);
+    endSpeechAndListening();
 
     setTimeLeft(25 - (new Date() - interviewStartTime) / (1000 * 60));
   };
@@ -385,8 +386,7 @@ const page = () => {
 
   };
 
-  useEffect(() => {
-  return () => {
+  const endSpeechAndListening = () => {
     // Stop speech recognition if it's active
     if (recognitionRef.current) {
       recognitionRef.current.stop();
@@ -397,6 +397,11 @@ const page = () => {
       window.speechSynthesis.cancel();
       console.log("Speech synthesis cancelled.");
     }
+  }
+
+  useEffect(() => {
+  return () => {
+    endSpeechAndListening();
   };
 }, []);
 

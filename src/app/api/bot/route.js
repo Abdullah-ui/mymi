@@ -301,6 +301,8 @@ export async function POST(req) {
     const userResponse = data.userResponse;
     const timeLeft = data.timeLeft || "25 mins left";
 
+    console.log(usersCode)  // for testing purpose only
+
     var prompt = ""
 
     if (userResponse === "end the interview"){

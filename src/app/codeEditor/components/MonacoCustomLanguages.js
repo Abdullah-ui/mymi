@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const MonacoEditor = () => {
+const MonacoEditor = ({ onEditorChange }) => {
 	const editorRef = useRef(null);
 	const monacoEl = useRef(null);
 	const [selectedLanguage, setSelectedLanguage] = useState("javascript");
@@ -88,6 +88,11 @@ const MonacoEditor = () => {
 						editor.onDidChangeModelContent(() => {
 							const value = editor.getValue();
 							setEditorContent(value);
+							console.log("line 91: ", value)
+
+							if (onEditorChange) {
+								onEditorChange(value); 
+							}
 						});
 
 						editorRef.current = editor;
@@ -125,7 +130,14 @@ const MonacoEditor = () => {
 
 			// Set sample code for the selected language
 			if (sampleCode[language]) {
-				editorRef.current.setValue(sampleCode[language]);
+				const newValue = sampleCode[language];
+		        editorRef.current.setValue(newValue);
+		        setEditorContent(newValue);
+				console.log("line 136: ", newValue)
+		        // Call the parent's change handler if provided
+		        if (onEditorChange) {
+		          onEditorChange(newValue);
+        		}		
 			}
 		}
 	};
