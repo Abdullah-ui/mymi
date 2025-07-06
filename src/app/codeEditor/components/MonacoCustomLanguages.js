@@ -88,7 +88,6 @@ const MonacoEditor = ({ onEditorChange }) => {
 						editor.onDidChangeModelContent(() => {
 							const value = editor.getValue();
 							setEditorContent(value);
-							console.log("line 91: ", value)
 
 							if (onEditorChange) {
 								onEditorChange(value); 
@@ -133,7 +132,6 @@ const MonacoEditor = ({ onEditorChange }) => {
 				const newValue = sampleCode[language];
 		        editorRef.current.setValue(newValue);
 		        setEditorContent(newValue);
-				console.log("line 136: ", newValue)
 		        // Call the parent's change handler if provided
 		        if (onEditorChange) {
 		          onEditorChange(newValue);
