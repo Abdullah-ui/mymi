@@ -9,12 +9,6 @@ const Info = () => {
 				<div className="flex flex-col gap-3">
 					<p className="w-[400px]">Email, call, or complete the form to learn how Mymi can solve your messaging problem.</p>
 					<Link href={"mailto:mymi@gmail.com"}><span className="underline">mymi@gmail.com</span></Link>
-					<p>091-43992122</p>
-					<div>
-						<Link href={"/"} className="underline">
-							Customer Support
-						</Link>
-					</div>
 				</div>
 			</div>
 			<div className="flex flex-wrap gap-10">

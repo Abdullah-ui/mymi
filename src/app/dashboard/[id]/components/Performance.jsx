@@ -41,12 +41,12 @@ const Performance = ({ userData }) => {
   }, [userData]);
 
   return (
-    <div className="mt-20" suppressHydrationWarning>
+    <div className="mt-20" suppressHydrationWarning id="performance">
       <div>
         <h3 className="text-3xl font-semibold mb-10">Performance</h3>
         <Chart options={options} series={series} type="area" height={450} />
       </div>
-      <div className="mt-20">
+      <div className="mt-20" id="suggestions">
         <h3 className="text-3xl font-semibold mb-10">Suggestions</h3>
         <div className="w-full space-y-3">
           {suggestions.map((suggestion, index) => (

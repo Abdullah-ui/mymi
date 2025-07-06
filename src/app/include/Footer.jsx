@@ -54,7 +54,7 @@ const Footer = () => {
           </h5>
           <div className="flex flex-col gap-y-5">
             <Link
-              href=""
+              href="/codeEditor"
               className="hover:underline hover:text-blue-600 transition-all duration-200"
             >
               Mock Interview
@@ -66,7 +66,7 @@ const Footer = () => {
               Practice Problems
             </Link> */}
             <Link
-              href=""
+              href="/dashboard#performance"
               className="hover:underline hover:text-blue-600 transition-all duration-200"
             >
               Progress Tracking
@@ -79,7 +79,7 @@ const Footer = () => {
           </h5>
           <div className="flex flex-col gap-y-5">
             <Link
-              href=""
+              href="/dashboard#suggestions"
               className="hover:underline hover:text-blue-600 transition-all duration-200"
             >
               Interview Tips
