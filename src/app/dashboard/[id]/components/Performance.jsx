@@ -7,9 +7,16 @@ import axios from "axios";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const Performance = ({ userData }) => {
-  const [series] = useState(generateInterviewData);
+  const [series, setSeries] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const calledRef = useRef(false);
+
+  useEffect(() => {
+
+    if (userData) {
+      setSeries(generateInterviewData(userData));
+    }
+  }, [userData]);
 
   const getSuggestions = async () => {
     try {

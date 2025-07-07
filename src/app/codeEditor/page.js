@@ -91,10 +91,12 @@ const page = () => {
       } catch (error) {
         console.error("Error fetching user experience level:", error);
       }
+      
+      let randomId = 1;
 
       while (true) {
         try{
-          let randomId = Math.floor(Math.random() * 2609) + 1;
+          randomId = Math.floor(Math.random() * 2609) + 1;
   
           const docRef = doc(firestore, "problems", randomId.toString());
           const docSnap = await getDoc(docRef);
@@ -116,14 +118,12 @@ const page = () => {
           continue;
         }
       }
-      console.log("✅ Loaded random question:", randomQuestion);
 
       // Set state variables
       setQuestion(randomQuestion.content || "No content found");
-      // setSolution(randomQuestion.answer.codingLanguage || "No answer found");
       changeLanguageOfTheSolution(randomQuestion)
       setDifficulty(randomQuestion.difficulty || "Unknown");
-      setQuestionID(randomQuestion.id || "Unknown ID");
+      setQuestionID(randomId || "Unknown ID");
 
       // Optional: if you're still using a language change function
       if (typeof changeLanguageOfTheSolution === 'function') {

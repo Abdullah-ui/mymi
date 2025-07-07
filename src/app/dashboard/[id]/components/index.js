@@ -1,10 +1,41 @@
-export const generateInterviewData = () => {
-    const categories = ['JavaScript', 'Python', 'Java', 'React', 'Node.js', 'Algorithms'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export const generateInterviewData = (userData) => {
+    // const categories = ['JavaScript', 'Python', 'Java', 'React', 'Node.js', 'Algorithms'];
+    const categories = ['adaptability', 'cleanCodeWriting', 'codingSkills', 'communication', 'optimization', 'overall', 'professionalism', 'understanding'];
+    // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+    const performanceData = userData?.performancePerInterview || null;
+
+    const dataArrays = {};
+    categories.forEach(category => {
+        dataArrays[category] = [];
+    });
+
+    if (performanceData) {
+        let count = 0;
+        for (const key in performanceData) {
+            if (performanceData.hasOwnProperty(key)) {
+                const results = performanceData[key].results;
+                categories.forEach(category => {
+                    if (results[category] !== undefined) {
+                        dataArrays[category].push(results[category]);
+                    }
+
+                    if (count === 0) {
+                        dataArrays[category].unshift(0);
+                    }
+                });
+            }
+
+            count++;
+        }
+    }
+
+    // Return the formatted data
     return categories.map(category => ({
         name: category,
-        data: months.map(() => Math.floor(Math.random() * 150) + 50)
+        data: performanceData 
+            ? dataArrays[category] 
+            : Array(10).fill(1) // Default array if no data
     }));
 };
 
@@ -80,7 +111,9 @@ export const options = {
             '#F59E0B', // Amber
             '#EC4899', // Pink
             '#8B5CF6', // Purple
-            '#10B981'  // Emerald
+            '#10B981',  // Emerald
+            "#F97316",  // Orange
+            "#FBBF24"  // Yellow
         ]
     },
     dataLabels: {
@@ -101,25 +134,25 @@ export const options = {
             vertical: 4
         }
     },
-    xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        labels: {
-            style: {
-                colors: '#6B7280',
-                fontSize: '12px',
-                fontWeight: 500
-            }
-        },
-        axisBorder: {
-            show: false
-        },
-        axisTicks: {
-            show: false
-        },
-        grid: {
-            show: false
-        }
-    },
+    // xaxis: {
+    //     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    //     labels: {
+    //         style: {
+    //             colors: '#6B7280',
+    //             fontSize: '12px',
+    //             fontWeight: 500
+    //         }
+    //     },
+    //     axisBorder: {
+    //         show: false
+    //     },
+    //     axisTicks: {
+    //         show: false
+    //     },
+    //     grid: {
+    //         show: false
+    //     }
+    // },
     yaxis: {
         title: {
             text: 'Number of Interviews',
