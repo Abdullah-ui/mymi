@@ -18,18 +18,20 @@ const LoginForm = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      if (!user.emailVerified){
-        setError({message: "Please verify your email"});
+      if (!(user.emailVerified)){
+        throw new Error("Email not verified.");
       }
 
       return user;
     } catch (error) {
-      if (error.message == "Firebase: Error (auth/invalid-credential).") {
+      if (error.message === "Firebase: Error (auth/invalid-credential).") {
         setError({message: "Please enter a valid email and password"});
         return;
       }
-
-      setError(error);
+      if (error.message === "Email not verified."){
+        setError({message: "Please verify your email. Please check your email for verification link."});
+        return;
+      }
     }
   }
 
@@ -51,14 +53,10 @@ const LoginForm = () => {
       // handle routing to the dashboard
       const id = user.uid;
       
-      //store the user.reloadUserInfo.localId in the local storage
-      // localStorage.setItem("sessionId", user.reloadUserInfo.localId);
       localStorage.setItem("sessionId", id);
 
       router.push('/dashboard/' + id);
-    } else {
-      setError({ message: "Please enter a valid email and password" });
-    }
+    } 
     setLoading(false);
   }
 

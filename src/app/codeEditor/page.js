@@ -86,7 +86,6 @@ const page = () => {
 
         if (docSnap.exists()) {
           userLevel = docSnap.data().experienceLevel;
-          console.log("User experience level:", userLevel);
         }
       } catch (error) {
         console.error("Error fetching user experience level:", error);

@@ -301,8 +301,6 @@ export async function POST(req) {
     const userResponse = data.userResponse;
     const timeLeft = data.timeLeft || "25 mins left";
 
-    console.log(usersCode)  // for testing purpose only
-
     var prompt = ""
 
     if (userResponse === "end the interview"){
@@ -346,7 +344,6 @@ export async function POST(req) {
     console.log(messages.length)
      // if the length of the conversational exchanges gets longer than 5, we will start to remove the oldest entry
      if (Math.floor(messages.length/2) == 5){
-        console.log("this part was executed")
         messages = [
             ...messages,
             {

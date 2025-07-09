@@ -32,7 +32,6 @@ const Introduction = () => {
 	const signInWithGoogle = async () => {
 		await signInWithPopup(auth, googleProvider)
 			.then((result) => {
-				console.log(result.user);
 				const response = result.user;
 
 				if (response) {
@@ -83,12 +82,9 @@ const Introduction = () => {
 	const signInWithGithub = async () => {
 		await signInWithPopup(auth, githubProvider)
 			.then((result) => {
-				console.log(result.user);
-
 				const response = result.user;
 
 				if (response) {
-					// localStorage.setItem("sessionId", user.reloadUserInfo.localId);
 					localStorage.setItem("sessionId", user.uid);
 				}
 

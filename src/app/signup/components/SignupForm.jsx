@@ -57,7 +57,6 @@ const SignupForm = () => {
       const user = userCredential.user;
 
       if (user) {
-        // localStorage.setItem("sessionId", user.reloadUserInfo.localId);
         localStorage.setItem("sessionId", user.uid);
       }
 

@@ -32,9 +32,9 @@ export const generateInterviewData = (userData) => {
 
     // Return the formatted data
     return categories.map(category => ({
-        name: category,
+        name: category.charAt(0).toUpperCase() + category.slice(1),
         data: performanceData 
-            ? dataArrays[category] 
+            ? dataArrays[category].length == 0 ? Array(10).fill(1) : dataArrays[category]
             : Array(10).fill(1) // Default array if no data
     }));
 };
@@ -155,7 +155,7 @@ export const options = {
     // },
     yaxis: {
         title: {
-            text: 'Number of Interviews',
+            text: 'Performance',
             style: {
                 color: '#6B7280',
                 fontSize: '12px',
@@ -208,7 +208,7 @@ export const options = {
         },
         y: {
             formatter: function (value, { seriesName }) {
-                return `<span style="font-weight: 600;">${value}</span> ${seriesName} interviews`;
+                return `<span style="font-weight: 600;">${value}</span>`;
             }
         }
     },
