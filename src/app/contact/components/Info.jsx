@@ -8,7 +8,7 @@ const Info = () => {
 				<h1 className="text-[36px] md:text-[48px] mb-4">Contact Us</h1>
 				<div className="flex flex-col gap-3">
 					<p className="w-[400px]">Email, call, or complete the form to learn how Mymi can solve your messaging problem.</p>
-					<Link href={"mailto:mymi@gmail.com"}><span className="underline">mymi@gmail.com</span></Link>
+					<Link href={"mailto:meetyourmockinterviewer@gmail.com"}><span className="underline">meetyourmockinterviewer@gmail.com</span></Link>
 				</div>
 			</div>
 			<div className="flex flex-wrap gap-10">
@@ -25,7 +25,7 @@ const Info = () => {
 				</div>
 				<div className="w-[300px] space-y-2">
 					<h3 className="font-semibold text-[22px]">Media Inquiries</h3>
-					<p>For media-related questions or press inquiries, please contact us at mymi@gmail.com</p>
+					<p>For media-related questions or press inquiries, please contact us at meetyourmockinterviewer@gmail.com</p>
 				</div>
 			</div>
 		</div>
