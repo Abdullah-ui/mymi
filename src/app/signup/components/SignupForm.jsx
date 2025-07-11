@@ -48,7 +48,13 @@ const SignupForm = () => {
       return null;
     }
 
+    if (!checkIfPasswordIsValid(password)) {
+      setLoading(false);
+      return null;
+    }
+
     try {
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -100,8 +106,8 @@ const SignupForm = () => {
         experienceLevel: "beginner",
         username: username,
         weaknesses: "",
-		    about: "",
-		    bio: "",
+        about: "",
+        bio: "",
         typesOfQuestionsSolved: {
           easy: 0,
           medium: 0,
@@ -127,6 +133,41 @@ const SignupForm = () => {
       console.log(error);
     }
   };
+
+  const checkIfPasswordIsValid = (password) => {
+    const minlen = 8;
+    const containDigits = /\d/;
+    const containSpecialChar = /[\W_]/;
+    const containUpperCase = /[A-Z]/;
+    let check = "Password must contain";
+    let isvalid = true
+
+    if (password.length < minlen) {
+      // setError({message: "Password should contain minimum 8 charaters"})
+      check += " minimum 8 characters";
+      isvalid = false;
+    }
+
+    if (!containDigits.test(password)) {
+      // setError({message: "Password must contains digits."})
+      check += ", digits";
+      isvalid = false;
+    }
+    if (!containSpecialChar.test(password)) {
+      // setError({message: "Password must contain special characters."})
+      check += ", special characters";
+      isvalid = false;
+    }
+    if (!containUpperCase.test(password)) {
+      // setError({message: "Password must contain upper case."})
+      check += " and uppercase";
+      isvalid = false;
+
+    }
+    if (!isvalid) { setError({ message: check }) }
+    return isvalid;
+
+  }
 
   useEffect(() => {
     checkIfAlreadyLoggedIn();
@@ -235,11 +276,13 @@ const SignupForm = () => {
           </div>
         )}
       </button>
-      {error && (
-        <p className="text-red-500 text-center">
-          {error.message || "Failed to Sign Up. Please try again."}
-        </p>
-      )}
+      <div>
+        {error && (
+          <p className="text-red-500 text-center">
+            {error.message || "Failed to Sign Up. Please try again."}
+          </p>
+        )}
+      </div>
       <p className="text-[#8d8d8d] text-center">
         Already have an account?{" "}
         <Link href="/login" className="text-white font-semibold">
