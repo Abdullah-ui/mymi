@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { sendEmailVerification, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -19,6 +19,7 @@ const LoginForm = () => {
       const user = userCredential.user;
 
       if (!(user.emailVerified)){
+        await sendEmailVerification(user);
         throw new Error("Email not verified.");
       }
 
@@ -29,7 +30,7 @@ const LoginForm = () => {
         return;
       }
       if (error.message === "Email not verified."){
-        setError({message: "Please verify your email. Please check your email for verification link."});
+        setError({message: "Please check your inbox for the email verification link."});
         return;
       }
     }
@@ -69,7 +70,6 @@ const LoginForm = () => {
       const result = await signInWithPopup(auth, githubProvider);
       const user = result.user;
 
-      // localStorage.setItem("sessionId", user.reloadUserInfo.localId);
       localStorage.setItem("sessionId", user.uid);
 
       router.push('/dashboard/' + user.uid);
@@ -87,7 +87,6 @@ const LoginForm = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      // localStorage.setItem("sessionId", user.reloadUserInfo.localId);
       localStorage.setItem("sessionId", user.uid);
 
       router.push('/dashboard/' + user.uid);
