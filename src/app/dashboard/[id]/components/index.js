@@ -1,7 +1,5 @@
 export const generateInterviewData = (userData) => {
-    // const categories = ['JavaScript', 'Python', 'Java', 'React', 'Node.js', 'Algorithms'];
     const categories = ['adaptability', 'cleanCodeWriting', 'codingSkills', 'communication', 'optimization', 'overall', 'professionalism', 'understanding'];
-    // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     const performanceData = userData?.performancePerInterview || null;
 
@@ -16,8 +14,10 @@ export const generateInterviewData = (userData) => {
             if (performanceData.hasOwnProperty(key)) {
                 const results = performanceData[key].results;
                 categories.forEach(category => {
-                    if (results[category] !== undefined) {
+                    if (category == "overall" && results[category] !== undefined) {
                         dataArrays[category].push(results[category]);
+                    } else if (results[category] !== undefined && results[category] !== null) {
+                        dataArrays[category].push(results[category] * 10); // to convert to percentage
                     }
 
                     if (count === 0) {
@@ -208,7 +208,7 @@ export const options = {
         },
         y: {
             formatter: function (value, { seriesName }) {
-                return `<span style="font-weight: 600;">${value}</span>`;
+                return `<span style="font-weight: 600;">${value}%</span>`;
             }
         }
     },
