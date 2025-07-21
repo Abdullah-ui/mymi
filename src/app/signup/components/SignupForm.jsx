@@ -301,9 +301,9 @@ const SignupForm = () => {
             </div>
           )}
         </button>
-        <div>
+        <div className="w-full flex justify-center">
           {error && (
-            <p className="text-red-500 text-center">
+            <p className="text-red-500 text-center text-sm max-w-xs break-words">
               {error.message || "Failed to Sign Up. Please try again."}
             </p>
           )}
