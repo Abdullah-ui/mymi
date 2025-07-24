@@ -11,7 +11,7 @@ const MonacoEditor = ({ onEditorChange }) => {
 	// Languages configuration
 	const languages = [
 		{ id: "javascript", name: "JavaScript" },
-		{ id: "typescript", name: "TypeScript" },
+		{ id: "java", name: "Java" },
 		{ id: "python", name: "Python" },
 		{ id: "cpp", name: "C++" },
 	];
@@ -20,7 +20,7 @@ const MonacoEditor = ({ onEditorChange }) => {
 	const sampleCode = {
 		javascript:
 			"// write your code here",
-		typescript:
+		java:
 			"// write your code here",
 		python: "# write your code here",
 		cpp: '// write your code here',
